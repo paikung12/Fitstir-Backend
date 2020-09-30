@@ -39,9 +39,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'polymorphic',
+    'django_filters',
 
 
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
