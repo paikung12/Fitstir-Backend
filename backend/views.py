@@ -32,3 +32,5 @@ class VideoPlayListViewset(viewsets.ModelViewSet):
 class TagDetailViewset(viewsets.ModelViewSet):
     queryset = TagDetail.objects.all()
     serializer_class = TagDetailSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['detail']
