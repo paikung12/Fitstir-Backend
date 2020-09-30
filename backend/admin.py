@@ -1,12 +1,43 @@
 from django.contrib import admin
-
+from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
 # Register your models here.
-from backend.models import TagType, Tag, Video
+from backend.models import Tag, Video, BMIUser, TagDetail, ExerciseTable, UserDetail, Challenge, VideoPlayList
 
-admin.site.register(TagType)
-admin.site.register(Tag)
 
-class VideoAdminModel(admin.ModelAdmin):
-    filter_horizontal = ('tag',)
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ('name', 'video', 'tag_type',)
 
-admin.site.register(Video,VideoAdminModel)
+class TagDetailInline(admin.TabularInline):
+    model = TagDetail
+
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name',)
+    inlines = [
+        TagDetailInline
+    ]
+
+@admin.register(ExerciseTable)
+class ExerciseChildAdmin(PolymorphicChildModelAdmin):
+    base_model = ExerciseTable
+    show_in_index = True
+    filter_horizontal = ['video']
+
+
+@admin.register(VideoPlayList)
+class PlayListAdmin(PolymorphicParentModelAdmin):
+    base_model = VideoPlayList
+    child_models = (VideoPlayList, ExerciseTable,)
+
+    filter_horizontal = ['video']
+
+
+
+
+
+admin.site.register(Challenge)
+
+admin.site.register(Tag, TagAdmin)
+admin.site.register(Video, VideoAdmin)
+admin.site.register(BMIUser)
+admin.site.register(UserDetail)
+admin.site.register(TagDetail)

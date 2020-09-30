@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .serializers import VideoSerializer, TagSerializer, TagTypeSerializer
-from .models import Video, Tag, TagType
+from .serializers import VideoSerializer, TagSerializer, VideoPlayListSerializer, TagDetailSerializer
+from .models import Video, Tag, VideoPlayList, TagDetail
 from rest_framework import viewsets
 
 
@@ -21,6 +21,10 @@ class TagViewset(viewsets.ModelViewSet):
     serializer_class = TagSerializer
 
 
-class TagTypeViewset(viewsets.ModelViewSet):
-    queryset = TagType.objects.all()
-    serializer_class = TagTypeSerializer
+class VideoPlayListViewset(viewsets.ModelViewSet):
+    queryset = VideoPlayList.objects.all()
+    serializer_class = VideoPlayListSerializer
+
+class TagDetailViewset(viewsets.ModelViewSet):
+    queryset = TagDetail.objects.all()
+    serializer_class = TagDetailSerializer

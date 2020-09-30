@@ -6,7 +6,9 @@ from backend import views
 router = routers.DefaultRouter()
 router.register('video', views.VideoViewset)
 router.register('tag', views.TagViewset)
-router.register('tagType', views.TagTypeViewset)
+router.register('videoplaylist', views.VideoPlayListViewset)
+router.register('tagdetail', views.TagDetailViewset)
+
 
 # The API URLs are now determined automatically by the router.
 urlpatterns = [

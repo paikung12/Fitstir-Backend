@@ -1,20 +1,31 @@
 from rest_framework import serializers
-from .models import TagType, Tag, Video 
+from .models import  Tag, Video, VideoPlayList, TagDetail
 
 
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
-        fields = ['name', 'video', 'tag']
+        fields = ['id', 'name', 'video', 'tag_type']
+
+
+class TagDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TagDetail
+        fields = ['id', 'name', 'detail']
 
 
 class TagSerializer(serializers.ModelSerializer):
+    tagdetail_set = TagDetailSerializer(many=True, required=False)
+
     class Meta:
         model = Tag
-        fields = ['type', 'name']
+        fields = ['id', 'name', 'tagdetail_set']
 
 
-class TagTypeSerializer(serializers.ModelSerializer):
+
+class VideoPlayListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TagType
-        fields = ['name']
+        model = VideoPlayList
+        fields = ['id', 'name', 'video']
+
+

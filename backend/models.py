@@ -1,24 +1,74 @@
+from django.contrib.auth.models import User
 from django.db import models
-class TagType(models.Model):
+from polymorphic.models import PolymorphicModel
+
+
+class UserDetail(models.Model):
+    birthday = models.DateTimeField()
+    address = models.TextField(max_length=255)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, )
+
+    def __str__(self):
+        return '{},{}'.format(self.birthday, self.address)
+
+
+class BMIUser(models.Model):
+    high = models.IntegerField()
+    weight = models.IntegerField()
+    bmi = models.IntegerField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, )
+
+    def __str__(self):
+        return '{},{}'.format(self.high, self.weight)
+
+
+class Tag(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return '{}'.format(self.name)
 
-class Tag(models.Model):
-    type = models.ForeignKey(TagType, on_delete=models.CASCADE)
+
+class Challenge(models.Model):
     name = models.CharField(max_length=255)
+    recommend = models.BooleanField()
 
     def __str__(self):
-        return '{},{}'.format(self.type.name,self.name)
+        return '{}'.format(self.name)
+
+
+class TagDetail(models.Model):
+    name = models.CharField(max_length=255)
+    detail = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
 
 class Video(models.Model):
     name = models.CharField(max_length=255)
     video = models.FileField(upload_to='videos/', null=True, verbose_name="Video File")
-    tag = models.ManyToManyField(Tag)
+    tag_type = models.OneToOneField(TagDetail, on_delete=models.CASCADE, )
+
+    # video_playlist = models.ManyToManyField(VideoPlayList)
+
+    def __str__(self):
+        return '{},{}'.format(self.name, self.tag_type)
+
+
+class VideoPlayList(PolymorphicModel):
+    name = models.CharField(max_length=255)
+    video = models.ManyToManyField(Video)
 
     def __str__(self):
         return '{}'.format(self.name)
 
 
+class ExerciseTable(VideoPlayList):
+    level = models.ForeignKey(Challenge, on_delete=models.CASCADE, )
+    day = models.IntegerField()
 
+    # find way unique
+
+    def __str__(self):
+        return '{}'.format(self.day)
