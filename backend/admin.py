@@ -1,7 +1,7 @@
 from django.contrib import admin
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
 # Register your models here.
-from backend.models import Tag, Video, BMIUser, TagDetail, ExerciseTable, UserDetail, Challenge, VideoPlayList
+from backend.models import Tag, Video, TagDetail, ExerciseTable, UserDetail, Challenge, VideoPlayList
 
 
 class VideoAdmin(admin.ModelAdmin):
@@ -27,7 +27,6 @@ class ExerciseChildAdmin(PolymorphicChildModelAdmin):
 class PlayListAdmin(PolymorphicParentModelAdmin):
     base_model = VideoPlayList
     child_models = (VideoPlayList, ExerciseTable,)
-
     filter_horizontal = ['video']
 
 
@@ -38,6 +37,5 @@ admin.site.register(Challenge)
 
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Video, VideoAdmin)
-admin.site.register(BMIUser)
-admin.site.register(UserDetail) 
+admin.site.register(UserDetail)
 admin.site.register(TagDetail)

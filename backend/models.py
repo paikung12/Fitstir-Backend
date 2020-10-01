@@ -4,22 +4,18 @@ from polymorphic.models import PolymorphicModel
 
 
 class UserDetail(models.Model):
-    birthday = models.DateTimeField()
+    birthday = models.DateField()
     address = models.TextField(max_length=255)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, )
+    high = models.IntegerField()
+    weight = models.IntegerField()
+    bmi = models.IntegerField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,)
 
     def __str__(self):
         return '{},{}'.format(self.birthday, self.address)
 
 
-class BMIUser(models.Model):
-    high = models.IntegerField()
-    weight = models.IntegerField()
-    bmi = models.IntegerField()
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, )
 
-    def __str__(self):
-        return '{},{}'.format(self.high, self.weight)
 
 
 class Tag(models.Model):
