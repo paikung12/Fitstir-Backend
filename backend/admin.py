@@ -1,11 +1,14 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
-# Register your models here.
 from backend.models import Tag, Video, TagDetail, ExerciseTable, UserDetail, Challenge, VideoPlayList
 
 
+
+
+
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('name', 'video', 'tag_type',)
+    list_display = ('name', 'video', 'tag_type', 'image')
 
 class TagDetailInline(admin.TabularInline):
     model = TagDetail

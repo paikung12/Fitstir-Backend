@@ -12,7 +12,7 @@ class VideoSerializer(serializers.ModelSerializer):
     tag_type = TagDetailSerializer(read_only=True)
     class Meta:
         model = Video
-        fields = ['id', 'name', 'video', 'tag_type']
+        fields = ['id', 'image', 'name', 'video', 'tag_type']
 
 
 

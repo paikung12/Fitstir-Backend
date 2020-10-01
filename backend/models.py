@@ -16,8 +16,6 @@ class UserDetail(models.Model):
 
 
 
-
-
 class Tag(models.Model):
     name = models.CharField(max_length=255)
 
@@ -42,6 +40,7 @@ class TagDetail(models.Model):
 
 
 class Video(models.Model):
+    image = models.FileField(upload_to='videos/', null=True, verbose_name="Video Image")
     name = models.CharField(max_length=255)
     video = models.FileField(upload_to='videos/', null=True, verbose_name="Video File")
     tag_type = models.OneToOneField(TagDetail, on_delete=models.CASCADE, )
