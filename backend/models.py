@@ -54,7 +54,7 @@ class Video(models.Model):
 class VideoPlayList(PolymorphicModel):
     image = models.FileField(upload_to='images', null=True, verbose_name="Playlist Image")
     name = models.CharField(max_length=255)
-    video = models.ManyToManyField(Video)
+    video = models.ManyToManyField(Video, null=True, blank=True)
 
     def __str__(self):
         return '{}'.format(self.name)
