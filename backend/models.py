@@ -8,8 +8,8 @@ class UserDetail(models.Model):
     address = models.TextField(max_length=255)
     high = models.IntegerField()
     weight = models.IntegerField()
-    bmi = models.IntegerField()
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE,)
+    bmi = models.FloatField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE,)
 
     def __str__(self):
         return '{},{}'.format(self.birthday, self.address)
@@ -43,7 +43,7 @@ class Video(models.Model):
     image = models.FileField(upload_to='videos/', null=True, verbose_name="Video Image")
     name = models.CharField(max_length=255)
     video = models.FileField(upload_to='videos/', null=True, verbose_name="Video File")
-    tag_type = models.OneToOneField(TagDetail, on_delete=models.CASCADE, )
+    tag_type = models.OneToOneField(TagDetail, on_delete=models.CASCADE)
 
     # video_playlist = models.ManyToManyField(VideoPlayList)
 
@@ -52,6 +52,7 @@ class Video(models.Model):
 
 
 class VideoPlayList(PolymorphicModel):
+    image = models.FileField(upload_to='images', null=True, verbose_name="Playlist Image")
     name = models.CharField(max_length=255)
     video = models.ManyToManyField(Video)
 

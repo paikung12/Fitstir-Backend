@@ -8,6 +8,8 @@ router.register('video', views.VideoViewset)
 router.register('tag', views.TagViewset)
 router.register('videoplaylist', views.VideoPlayListViewset)
 router.register('tagdetail', views.TagDetailViewset)
+router.register('user', views.UserViewset)
+router.register('userdetail', views.UserDeatailViewset)
 
 
 # The API URLs are now determined automatically by the router.

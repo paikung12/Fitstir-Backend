@@ -19,6 +19,8 @@ class TagAdmin(admin.ModelAdmin):
         TagDetailInline
     ]
 
+
+
 @admin.register(ExerciseTable)
 class ExerciseChildAdmin(PolymorphicChildModelAdmin):
     base_model = ExerciseTable
@@ -37,7 +39,6 @@ class PlayListAdmin(PolymorphicParentModelAdmin):
 
 
 admin.site.register(Challenge)
-
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Video, VideoAdmin)
 admin.site.register(UserDetail)
