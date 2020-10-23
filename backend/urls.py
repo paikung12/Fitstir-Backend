@@ -13,7 +13,6 @@ router.register('tag', views.TagViewset)
 # router.register('challenge', views.ChallengeViewset)
 # router.register('comment', views.CommentViewset)
 router.register('user', views.UserViewser)
-# router.register('testx', views.Test)
 # router.register('userdetail', views.UserDetailViewset)
 # router.register('history', views.ViewHistoryViewset)
 
