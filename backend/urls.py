@@ -21,7 +21,7 @@ router.register('user', views.UserViewser)
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
     path('', include(router.urls)),
-    path('xxx', views.VideoAPIView.as_view()),
+    path('video', views.VideoAPIView.as_view()),
     # path('videos', views.VideoAPIListView.as_view()),
 
 ]
