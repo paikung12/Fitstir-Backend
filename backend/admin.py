@@ -1,45 +1,55 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
-from backend.models import Tag, Video, TagDetail, ExerciseTable, UserDetail, Challenge, VideoPlayList
-
-
+from simple_history.admin import SimpleHistoryAdmin
+from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, inlines
+from backend.models import Tag, Video, TagDetail, UserDetail, Challenge, PlaylistVideo, Comment
 
 
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('name', 'video', 'tag_type', 'image')
+    filter_horizontal = ['tag_type']
 
 class TagDetailInline(admin.TabularInline):
     model = TagDetail
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name',)
     inlines = [
         TagDetailInline
     ]
 
+class UserdetailInline(admin.StackedInline):
+    model = UserDetail
+    can_delete = False
+    verbose_name = 'UserDetail'
+
+class UserAdmin(UserAdmin):
+    inlines = (UserdetailInline,)
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 
 
-@admin.register(ExerciseTable)
-class ExerciseChildAdmin(PolymorphicChildModelAdmin):
-    base_model = ExerciseTable
-    show_in_index = True
+
+class PlaylistVideoAdmin(admin.ModelAdmin):
     filter_horizontal = ['video']
 
 
-@admin.register(VideoPlayList)
-class PlayListAdmin(PolymorphicParentModelAdmin):
-    base_model = VideoPlayList
-    child_models = (VideoPlayList, ExerciseTable,)
-    filter_horizontal = ['video']
+class CommentInline(admin.TabularInline):
+    model = Comment
 
+class ChallengeAdmin(admin.ModelAdmin):
+    inlines = (CommentInline,)
 
+class TagDetailAdmin(admin.ModelAdmin):
+    list_display = ['name', 'detail']
 
-
-
-admin.site.register(Challenge)
+admin.site.register(PlaylistVideo, PlaylistVideoAdmin)
+admin.site.register(Challenge , ChallengeAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Video, VideoAdmin)
-admin.site.register(UserDetail)
-admin.site.register(TagDetail)
+admin.site.register(UserDetail, SimpleHistoryAdmin)
+admin.site.register(TagDetail, TagDetailAdmin)
+admin.site.register(Comment)
+
+

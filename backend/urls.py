@@ -1,18 +1,27 @@
 from django.urls import path, include
+from django.conf.urls import include, url
 from rest_framework import routers
 from backend import views
 
 # Create a router and register our viewsets with it.
 router = routers.DefaultRouter()
-router.register('video', views.VideoViewset)
+
+router.register('videos', views.VideoViewset)
 router.register('tag', views.TagViewset)
-router.register('videoplaylist', views.VideoPlayListViewset)
-router.register('tagdetail', views.TagDetailViewset)
-router.register('user', views.UserViewset)
-router.register('userdetail', views.UserDeatailViewset)
+# router.register('tagdetail', views.TagDetailViewset)
+# router.register('playlist', views.PlaylistVideoViewset)
+# router.register('challenge', views.ChallengeViewset)
+# router.register('comment', views.CommentViewset)
+router.register('user', views.UserViewser)
+# router.register('testx', views.Test)
+# router.register('userdetail', views.UserDetailViewset)
+# router.register('history', views.ViewHistoryViewset)
 
 
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
     path('', include(router.urls)),
+    path('xxx', views.VideoAPIView.as_view()),
+    # path('videos', views.VideoAPIListView.as_view()),
+
 ]
