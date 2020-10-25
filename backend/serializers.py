@@ -50,52 +50,24 @@ class VideoViewSerializer(ModelSerializer):
         fields = '__all__'
 
 
-    # def create(self, validated_data):
-    #     video = dict()
-    #     video['name'] = validated_data.get("name")
-    #     try:
-    #         video['image'] = validated_data.get['image']
-    #     except:
-    #         video['image'] = None
-    #     try:
-    #         video['video'] = validated_data.get['video']
-    #     except:
-    #         video['video'] = None
-    #
-    #     video['description'] = validated_data.get("description")
-    #     try:
-    #         video['tag_type'] = validated_data.get('tag_type')
-    #     except:
-    #         video['tag_type'] = []
-    #
-    #     print(validated_data)
-    #
-    #     # save video
-    #
-    #     video_model = Video.objects.create(
-    #         name=video['name'],
-    #         image=video['image'],
-    #         video=video['video'],
-    #         description=video['description']
-    #     )
-    #
-    #     # save tag
-    #
-    #     tag_type_data = video['tag_type']
-    #     print('tag_type', tag_type_data)
-    #
-    #     for tagdetail in  tag_type_data:
-    #         video_model.tag_type.add(tagdetail.id)
-    #         print(tagdetail)
-    #
-    #     return video_model
+class VideoSerializerUpdate(ModelSerializer):
+    class Meta:
+        model = Video
+        fields = ['title', 'description', 'tags']
+
+
+class VideoSerializerUpdateView(ModelSerializer):
+    class Meta:
+        model = Video
+        fields = ['title', 'description', 'tags', 'image']
+
 
 class PlaylistVideoSerializer(ModelSerializer):
     video = VideoSerializer(read_only=True, many=True)
-
     class Meta:
         model = PlaylistVideo
         fields = '__all__'
+
 
 
 class ViewHistorySerializer(ModelSerializer):

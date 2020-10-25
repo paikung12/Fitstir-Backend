@@ -17,7 +17,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from .serializers import VideoSerializer, TagSerializer, PlaylistVideoSerializer, TagDetailSerializer, UserDetailSerializer, UserSerializer,\
-    ViewHistorySerializer, ChallengeSerializer, CommentSerializer, VideoViewSerializer
+    ViewHistorySerializer, ChallengeSerializer, CommentSerializer, VideoViewSerializer, VideoSerializerUpdate, VideoSerializerUpdateView
 
 from .models import Video, Tag, PlaylistVideo, TagDetail, UserDetail, Comment, Challenge, ViewHistory
 
@@ -40,13 +40,13 @@ class VideoAPIView(APIView):
         return Response({"hello":pk})
     
     def post(self, request, format=None):
-        tags = list(map(int, request.data.get('tag_type').split(',')))
+        tags = list(map(int, request.data.get('tag_type', ).split(',')))
         form = {
             "tag_type": tags,
-            "name": request.data.get('name'),
-            "image": request.data.get('image'),
-            "description": request.data.get('description'),
-            "video": request.data.get('video'),
+            "name": request.data.get('name', ),
+            "image": request.data.get('image', ),
+            "description": request.data.get('description', ),
+            "video": request.data.get('video', ),
         }
 
         serializer = VideoSerializer(data=form)
@@ -55,8 +55,38 @@ class VideoAPIView(APIView):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
-    
- 
+
+class VideoAPIViewUpdate(generics.RetrieveUpdateDestroyAPIView):
+    def get(self, request, pk, format=None):
+        try:
+            item = Video.objects.get(pk=pk)
+            serializer = VideoSerializer(item)
+            return Response(serializer.data)
+        except Video.DoesNotExist:
+            return Response(status=404)
+
+    @csrf_exempt
+    def put(self, request, pk, format=None):
+
+        try:
+            item = Video.objects.get(pk=pk)
+        except Video.DoesNotExist:
+            return Response(status=404)
+        serializer = VideoSerializerUpdate(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    def delete(self, request, pk, format=None):
+        try:
+            item = Video.objects.get(pk= pk)
+        except Video.DoesNotExist:
+            return Response(status=404)
+        item.delete()
+        return Response(status=204)
+
+
 class TagViewset(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
